@@ -1,0 +1,26 @@
+.root {
+}
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-transform: uppercase;
+}
+.dashboardItem {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.name {
+  width: 389px;
+}
+.type {
+  width: 100px;
+}
+.status {
+  width: 162px;
+}
+.site {
+  width: 317px;
+  text-align: start;
+}
