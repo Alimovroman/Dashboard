@@ -1,24 +1,19 @@
-import { Table } from "./Table/Table";
-import { Search } from "./Search/Search";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import { SiteApi, Test } from "../Dashboard";
 import axios from "axios";
-import { useState, useEffect } from "react";
 
-export const Dashboard = () => {
+export const FinalizeResults = () => {
+  const { id } = useParams();
   const [apiDashboardEmail, setApiDashBoardEmail] = useState<null | SiteApi[]>(
     null
   );
   const [apiTest, setApiTest] = useState<null | Test[]>(null);
   const [fullData, setFullData] = useState<null | Test[]>(null);
-
+  const [contentData, setContentData] = useState<null | Test[]>(null);
   useEffect(() => {
     axios.get("http://localhost:3100/sites").then((api) => {
-      setApiDashBoardEmail(
-        api.data.map((e: SiteApi) => {
-          const { url, ...rest } = e;
-          const newUrl = url.replace(/^https?:\/\/(www\.)?/, "");
-          return { ...rest, url: newUrl };
-        })
-      );
+      setApiDashBoardEmail(api.data);
     });
   }, []);
 
@@ -42,37 +37,16 @@ export const Dashboard = () => {
         })
       );
   }, [apiTest, apiDashboardEmail]);
+  useEffect(() => {
+    fullData && id && setContentData(fullData.filter((e) => e.id === +id));
+  }, [fullData]);
 
   return (
     <div>
-      <Search />
-      <Table fullData={fullData} setFullData={setFullData} />
+      <div>Name: {contentData?.[0].name}</div>
+      <div>Status: {contentData?.[0].status}</div>
+      <div>Type: {contentData?.[0].type}</div>
+      <div>Url: {contentData?.[0].url}</div>
     </div>
   );
 };
-
-//types
-
-export interface SiteApi {
-  id: number;
-  url: string;
-}
-export interface Test {
-  id: number;
-  name: string;
-  type: Type;
-  status: Status;
-  siteId: number;
-  url?: string;
-}
-enum Status {
-  DRAFT = "DRAFT",
-  ONLINE = "ONLINE",
-  PAUSED = "PAUSED",
-  STOPPED = "STOPPED",
-}
-enum Type {
-  CLASSIC = "CLASSIC",
-  SERVER_SIDE = "SERVER_SIDE",
-  MVT = "MVT",
-}
