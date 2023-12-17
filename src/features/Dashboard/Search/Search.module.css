@@ -1,0 +1,20 @@
+.root {
+  display: flex;
+  align-items: center;
+}
+.input {
+  width: 954px;
+  height: 45px;
+  border-radius: 10px;
+  border: 1px solid #d1d1d1;
+  padding-left: 50px;
+}
+.searchImg {
+  position: relative;
+  left: 40px;
+}
+.count {
+  position: relative;
+  right: 60px;
+  color: #d1d1d1;
+}

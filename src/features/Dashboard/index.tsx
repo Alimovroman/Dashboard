@@ -45,7 +45,7 @@ export const Dashboard = () => {
 
   return (
     <div>
-      <Search />
+      <Search countTests={fullData?.length} />
       <Table fullData={fullData} setFullData={setFullData} />
     </div>
   );

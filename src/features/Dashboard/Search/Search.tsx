@@ -1,9 +1,21 @@
 import * as React from "react";
+import style from "./Search.module.css";
+import searchImg from "../../../assets/search/Search.svg";
+import { FC } from "react";
 
-export const Search = () => {
+type Props = {
+  countTests: number | undefined;
+};
+
+export const Search: FC<Props> = ({ countTests }) => {
   return (
-    <div>
-      <input placeholder="What test are you looking for?" />
+    <div className={style.root}>
+      <img src={searchImg} alt="" className={style.searchImg} />
+      <input
+        className={style.input}
+        placeholder="What test are you looking for?"
+      />
+      <span className={style.count}>{countTests} tests</span>
     </div>
   );
 };
