@@ -1,0 +1,15 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.header {
+  color: #222222;
+  font-family: Montserrat;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 32px;
+  letter-spacing: 0em;
+  margin-top: 41px;
+  margin-bottom: 80px;
+}

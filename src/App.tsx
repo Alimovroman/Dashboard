@@ -1,12 +1,14 @@
 import React from "react";
-import "./App.css";
+import style from "./App.module.css";
 import { Dashboard } from "./features/Dashboard";
 
 function App() {
   return (
-    <div className="App">
-      <div>Dashboard</div>
-      <Dashboard />
+    <div className={style.root}>
+      <div>
+        <div className={style.header}>Dashboard</div>
+        <Dashboard />
+      </div>
     </div>
   );
 }

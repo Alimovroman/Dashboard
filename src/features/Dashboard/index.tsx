@@ -1,7 +1,7 @@
 import { Table } from "./Table/Table";
 import { Search } from "./Search/Search";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 
 export const Dashboard = () => {
   const [apiDashboardEmail, setApiDashBoardEmail] = useState<null | SiteApi[]>(
@@ -9,6 +9,12 @@ export const Dashboard = () => {
   );
   const [apiTest, setApiTest] = useState<null | Test[]>(null);
   const [fullData, setFullData] = useState<null | Test[]>(null);
+  const [searchValue, setSearchValue] = useState("");
+  const [filteredData, setFilteredData] = useState<null | Test[]>([]);
+
+  const searchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+  };
 
   useEffect(() => {
     axios.get("http://localhost:3100/sites").then((api) => {
@@ -43,10 +49,25 @@ export const Dashboard = () => {
       );
   }, [apiTest, apiDashboardEmail]);
 
+  useEffect(() => {
+    if (searchValue === "") {
+      setFilteredData(fullData);
+    } else {
+      const filtered = fullData?.filter((obj) =>
+        obj.name.includes(searchValue)
+      );
+      filtered && setFilteredData(filtered);
+    }
+  }, [fullData, searchValue]);
+
   return (
     <div>
-      <Search countTests={fullData?.length} />
-      <Table fullData={fullData} setFullData={setFullData} />
+      <Search
+        countTests={fullData?.length}
+        handleSearch={searchChange}
+        searchValue={searchValue}
+      />
+      <Table filteredData={filteredData} setFilteredData={setFilteredData} />
     </div>
   );
 };
