@@ -75,7 +75,7 @@ export const Dashboard = () => {
   return (
     <div className={style.root}>
       <Search
-        countTests={fullData?.length}
+        countTests={filteredData?.length}
         handleSearch={searchChange}
         searchValue={searchValue}
       />
