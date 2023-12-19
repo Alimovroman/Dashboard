@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { SiteApi, Test } from "../Dashboard";
 import axios from "axios";
+import style from "./FinalizeResults.module.css";
+import backImg from "../../assets/button/back.svg";
 
 export const FinalizeResults = () => {
   const { id } = useParams();
@@ -11,6 +13,12 @@ export const FinalizeResults = () => {
   const [apiTest, setApiTest] = useState<null | Test[]>(null);
   const [fullData, setFullData] = useState<null | Test[]>(null);
   const [contentData, setContentData] = useState<null | Test[]>(null);
+  const navigate = useNavigate();
+
+  const backPaigeHandler = () => {
+    navigate("/");
+  };
+
   useEffect(() => {
     axios.get("http://localhost:3100/sites").then((api) => {
       setApiDashBoardEmail(api.data);
@@ -42,11 +50,20 @@ export const FinalizeResults = () => {
   }, [fullData]);
 
   return (
-    <div>
-      <div>Name: {contentData?.[0].name}</div>
-      <div>Status: {contentData?.[0].status}</div>
-      <div>Type: {contentData?.[0].type}</div>
-      <div>Url: {contentData?.[0].url}</div>
+    <div className={style.root}>
+      <div>
+        <h2>{contentData?.[0].status === "DRAFT" ? "Finalize" : "Results"}</h2>
+        <div>Name: {contentData?.[0].name}</div>
+        <div>Status: {contentData?.[0].status}</div>
+        <div>Type: {contentData?.[0].type}</div>
+        <div>Url: {contentData?.[0].url}</div>
+      </div>
+      <div>
+        <button onClick={backPaigeHandler} className={style.btn}>
+          <img src={backImg} alt="" />
+          Back
+        </button>
+      </div>
     </div>
   );
 };

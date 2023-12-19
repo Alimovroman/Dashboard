@@ -3,6 +3,7 @@ import style from "./Table.module.css";
 import { Test } from "..";
 import { FC, useState } from "react";
 import { Link } from "react-router-dom";
+import arrowImg from "../../../assets/button/arrowUp.svg";
 
 type Props = {
   filteredData: null | Test[];
@@ -11,6 +12,7 @@ type Props = {
 
 export const Table: FC<Props> = ({ filteredData, setFilteredData }) => {
   const [statusSort, setStatusSort] = useState<boolean>(true);
+  const [isTypeSort, setIsTypeSort] = useState(false);
 
   const statusSortHandler = () => {
     if (statusSort) {
@@ -22,7 +24,9 @@ export const Table: FC<Props> = ({ filteredData, setFilteredData }) => {
     }
   };
 
-  const onSortHandler = (key: "name" | "site" | "statusUp" | "statusDown") => {
+  const onSortHandler = (
+    key: "name" | "site" | "statusUp" | "statusDown" | "type"
+  ) => {
     if (key === "name") {
       const newData = filteredData!.sort((a, b) => {
         return b.name < a.name ? 1 : b.name > a.name ? -1 : 0;
@@ -59,6 +63,20 @@ export const Table: FC<Props> = ({ filteredData, setFilteredData }) => {
         return statusPriority[b.status] - statusPriority[a.status];
       });
       setFilteredData([...sortedData]);
+    } else if (key === "type") {
+      if (isTypeSort === false) {
+        const newData = filteredData!.sort((a, b) => {
+          return b.type < a.type ? 1 : b.type > a.type ? -1 : 0;
+        });
+        setFilteredData([...newData]);
+        setIsTypeSort(!isTypeSort);
+      } else {
+        const newData = filteredData!.sort((a, b) => {
+          return a.type < b.type ? 1 : a.type > b.type ? -1 : 0;
+        });
+        setFilteredData([...newData]);
+        setIsTypeSort(!isTypeSort);
+      }
     }
   };
 
@@ -68,7 +86,14 @@ export const Table: FC<Props> = ({ filteredData, setFilteredData }) => {
         <div className={style.name} onClick={() => onSortHandler("name")}>
           Name
         </div>
-        <div className={style.type}>Type</div>
+        <div className={style.type} onClick={() => onSortHandler("type")}>
+          Type{" "}
+          <img
+            src={arrowImg}
+            alt=""
+            className={isTypeSort ? style.arrowImgDown : style.arrowImg}
+          />
+        </div>
         <div className={style.status} onClick={statusSortHandler}>
           Status
         </div>

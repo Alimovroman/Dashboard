@@ -1,0 +1,22 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  padding-left: 70px;
+}
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90px;
+  color: #222222;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 25px;
+  letter-spacing: 0px;
+  text-align: left;
+  margin-bottom: 40px;
+  border: none;
+  background: inherit;
+}

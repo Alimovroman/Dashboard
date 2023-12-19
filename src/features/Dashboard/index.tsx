@@ -2,6 +2,7 @@ import { Table } from "./Table/Table";
 import { Search } from "./Search/Search";
 import axios from "axios";
 import { useState, useEffect, ChangeEvent } from "react";
+import style from "./Dashboard.module.css";
 
 export const Dashboard = () => {
   const [apiDashboardEmail, setApiDashBoardEmail] = useState<null | SiteApi[]>(
@@ -11,6 +12,11 @@ export const Dashboard = () => {
   const [fullData, setFullData] = useState<null | Test[]>(null);
   const [searchValue, setSearchValue] = useState("");
   const [filteredData, setFilteredData] = useState<null | Test[]>([]);
+  const [isFindText, setIsFindText] = useState<null | boolean>(null);
+
+  const resetHandler = () => {
+    setSearchValue("");
+  };
 
   const searchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
@@ -52,22 +58,42 @@ export const Dashboard = () => {
   useEffect(() => {
     if (searchValue === "") {
       setFilteredData(fullData);
+      setIsFindText(null);
     } else {
       const filtered = fullData?.filter((obj) =>
         obj.name.includes(searchValue)
       );
-      filtered && setFilteredData(filtered);
+      if (filtered?.length === 0) {
+        setIsFindText(false);
+      } else {
+        filtered && setFilteredData(filtered);
+        setIsFindText(true);
+      }
     }
   }, [fullData, searchValue]);
 
   return (
-    <div>
+    <div className={style.root}>
       <Search
         countTests={fullData?.length}
         handleSearch={searchChange}
         searchValue={searchValue}
       />
-      <Table filteredData={filteredData} setFilteredData={setFilteredData} />
+      {(isFindText === null || isFindText) && (
+        <Table filteredData={filteredData} setFilteredData={setFilteredData} />
+      )}
+      {isFindText === false && (
+        <div className={style.notFoundWrapper}>
+          <div className={style.description}>
+            Your search did not match any results.
+          </div>
+          <div>
+            <button className={style.resetBtn} onClick={resetHandler}>
+              Reset
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

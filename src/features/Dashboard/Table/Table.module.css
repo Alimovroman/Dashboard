@@ -25,6 +25,15 @@
 }
 .type {
   width: 160px;
+  display: flex;
+  align-items: center;
+}
+.arrowImg {
+  padding-left: 10px;
+}
+.arrowImgDown {
+  transform: rotate(180deg);
+  margin-left: 10px;
 }
 .status {
   width: 162px;
